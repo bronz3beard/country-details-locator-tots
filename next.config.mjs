@@ -8,7 +8,9 @@ const nextConfig = {
     minimumCacheTTL: 60,
     deviceSizes: [82, 110, 140, 640, 750, 828, 1080, 1200, 1920, 2048, 3840]
   },
-  env: {}
+  env: {
+    MAP_BOX_TOKEN: process.env.MAP_BOX_TOKEN
+  }
 };
 
 export default nextConfig;

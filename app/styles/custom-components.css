@@ -1,0 +1,5 @@
+@import 'mapbox-gl/dist/mapbox-gl.css';
+
+.transition-height {
+  transition-property: height;
+}

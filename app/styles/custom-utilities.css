@@ -1,0 +1,39 @@
+/* Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  padding-bottom: 17px;
+  /* Increase/decrease this value for cross-browser compatibility */
+  box-sizing: content-box;
+  /* So the width will be 100% + 17px */
+}
+
+.no_highlights {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.mapboxgl-ctrl-bottom-right,
+.mapboxgl-ctrl,
+.mapboxgl-ctrl-attrib,
+.mapboxgl-ctrl-attrib-button,
+.mapboxgl-ctrl-attrib-inner {
+  display: none !important;
+  visibility: hidden;
+  background-color: #282c34 !important;
+}
+
+.text-balance {
+  text-wrap: balance;
+}

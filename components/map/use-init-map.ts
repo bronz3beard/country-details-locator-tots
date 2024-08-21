@@ -1,0 +1,55 @@
+'use client';
+import { useEffect, useRef, useState } from 'react';
+
+import initMap, { InitMapOptions } from '~/lib/map-box/init-map';
+import { MapBox } from '~/lib/map-box/types';
+import { InitialMapConfig } from './types';
+
+const useInitialMap = ({
+  lat,
+  lng,
+  source,
+  zoom,
+  pitch,
+  bearing,
+  coordinates
+}: InitialMapConfig) => {
+  const [mapBox, setMapBox] = useState<MapBox | null>(null);
+  const mapRef = useRef<HTMLDivElement | null>(null);
+  const mapContainer = useRef<HTMLDivElement | null>(null);
+
+  useEffect(
+    function initialiseMapBox() {
+      const map = mapRef.current;
+      if (mapContainer.current) {
+        // Ensure the map container is empty before initializing the map
+        mapContainer.current.innerHTML = '';
+        const mapbox = initMap({
+          map: mapContainer,
+          lat,
+          lng,
+          source,
+          zoom,
+          pitch,
+          bearing,
+          coordinates
+        } satisfies InitMapOptions);
+
+        setMapBox(mapbox);
+      }
+      if (map) {
+        map.style.width = '100%';
+        return; // initialize map only once
+      }
+    },
+    [lat, lng, source, zoom, pitch, bearing, coordinates]
+  );
+
+  return {
+    mapBox,
+    mapRef,
+    mapContainer
+  };
+};
+
+export default useInitialMap;
