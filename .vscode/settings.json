@@ -1,0 +1,106 @@
+{
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "cSpell.words": [""],
+  "css.validate": false,
+  "deno.enablePaths": ["supabase/functions"],
+  "deno.lint": true,
+  "deno.unstable": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.autoClosingBrackets": "languageDefined",
+  "editor.autoClosingQuotes": "languageDefined",
+  "editor.autoIndent": "none",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "always",
+    "source.codeActionsOnSave": "always",
+    "source.fixAll": "always",
+    "source.fixAll.eslint": "always",
+    "source.organizeImports": "always",
+    "source.sortMembers": "always"
+  },
+  "editor.colorDecorators": true,
+  "editor.formatOnSave": true,
+  "editor.guides.bracketPairs": true,
+  "editor.hover.above": false,
+  "editor.insertSpaces": true,
+  "editor.minimap.scale": 1,
+  "editor.minimap.size": "fill",
+  "editor.quickSuggestions": {
+    "comments": true,
+    "other": true,
+    "strings": true
+  },
+  "editor.stickyScroll.enabled": true,
+  "editor.tabCompletion": "onlySnippets",
+  "editor.tabSize": 2,
+  "editor.trimAutoWhitespace": false,
+  "editor.unicodeHighlight.ambiguousCharacters": true,
+  "editor.unicodeHighlight.invisibleCharacters": true,
+  "editor.unicodeHighlight.nonBasicASCII": true,
+  "eslint.validate": ["javascript", "typescript"],
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": false,
+  "git.confirmSync": true,
+  "html.autoClosingTags": true,
+  "html.format.contentUnformatted": "pre,code,textarea",
+  "html.format.enable": true,
+  "html.format.indentInnerHtml": true,
+  "html.format.wrapAttributes": "aligned-multiple",
+  "html.format.wrapLineLength": 100,
+  "html.suggest.html5": true,
+  "javascript.autoClosingTags": true,
+  "javascript.format.enable": true,
+  "javascript.format.insertSpaceAfterCommaDelimiter": true,
+  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "javascript.format.insertSpaceBeforeAndAfterBinaryOperators": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "javascript.preferences.jsxAttributeCompletionStyle": "braces",
+  "javascript.suggest.autoImports": true,
+  "javascript.suggest.classMemberSnippets.enabled": true,
+  "javascript.suggest.enabled": true,
+  "javascript.suggest.names": true,
+  "javascript.suggest.paths": true,
+  "javascript.suggestionActions.enabled": true,
+  "javascript.validate.enable": true,
+  "jest.jestCommandLine": "npm run test:jest",
+  "jest.rootPath": ".",
+  "json.format.enable": true,
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
+  },
+  "scss.validate": false,
+  "search.exclude": {
+    "**/node_modules": true,
+    "package-lock.json": true
+  },
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "window.density.editorTabHeight": "compact",
+  "workbench.editor.pinnedTabSizing": "compact",
+  "workbench.editor.pinnedTabsOnSeparateRow": true,
+  "workbench.editor.wrapTabs": true,
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  }
+}
