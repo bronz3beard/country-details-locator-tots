@@ -14,16 +14,7 @@ export interface InitMapOptions extends InitialMapConfig {
   map: MutableRefObject<HTMLDivElement | null>;
 }
 
-const initMap = ({
-  map,
-  lat,
-  lng,
-  source,
-  zoom = 3,
-  pitch = 5,
-  bearing = 360,
-  coordinates
-}: InitMapOptions): MapBox => {
+const initMap = ({ map, lat, lng, zoom = 3, pitch = 5, bearing = 360 }: InitMapOptions): MapBox => {
   const mapboxGL = new mapboxgl.Map({
     container: map.current as unknown as HTMLElement, // container ID
     center: [lng, lat], // starting position [lng, lat]

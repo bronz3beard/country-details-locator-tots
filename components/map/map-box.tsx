@@ -6,7 +6,7 @@ import useInitialMap from './use-init-map';
 const MapBox = () => {
   const { mapContainer } = useInitialMap(mapConfig);
 
-  return (
+  return mapContainer ? (
     <div
       style={{
         ...mapConfig.styles,
@@ -16,7 +16,7 @@ const MapBox = () => {
       }}
       ref={mapContainer}
     />
-  );
+  ) : null;
 };
 
 export default MapBox;

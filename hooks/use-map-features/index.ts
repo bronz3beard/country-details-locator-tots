@@ -1,63 +1,37 @@
-import { ChangeEvent, useCallback, useState } from 'react';
-import { mapFeatures } from '~/lib/map-box/constants';
+import { useCallback, useState } from 'react';
 import { countries } from '~/lib/map-box/locations/countries';
-import { BuildFeature, MapBox } from '~/lib/map-box/types';
+import { BuildFeature } from '~/lib/map-box/types';
 import { normalizeString } from '~/utils/string-utils';
 
 interface Feature extends BuildFeature {}
 
-const useFeatureList = (mapBox: MapBox | null) => {
+const useFeatureList = () => {
   const [featureList, setFeatureList] = useState<Array<Feature>>([]);
 
   const inputFeatureFilter = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const value = normalizeString(event.currentTarget.value ?? '');
-      const mapboxGL = mapBox;
+    (filterValue: string) => {
+      const value = normalizeString(filterValue ?? '');
 
-      if (mapboxGL) {
-        const features: Array<Feature> = featureList?.length > 0 ? featureList : [...countries];
+      const features: Array<Feature> = featureList?.length > 0 ? featureList : [...countries];
 
-        // Filter visible features that match the input value.
-        const filtered: Array<Feature> = [];
+      // Filter visible features that match the input value.
+      const filtered: Array<Feature> = [];
 
-        features.forEach((feature) => {
-          const title = normalizeString(feature.properties.title ?? '');
+      features.forEach((feature) => {
+        const title = normalizeString(feature.properties.title ?? '');
 
-          if (title.includes(value)) {
-            filtered.push(feature);
-          }
-        });
-
-        // Set the filter to populate features into the layer.
-        if (filtered.length) {
-          mapFeatures.forEach((feature) => {
-            // remove features filter
-            if (value === '') {
-              mapboxGL.setFilter(feature.source, null);
-            } else {
-              mapboxGL.setFilter(
-                feature.source,
-                [
-                  'match',
-                  ['get', 'title'],
-                  filtered.map((item) => {
-                    return item.properties.title;
-                  })
-                ],
-                {
-                  validate: true,
-                  isInitialLoad: false
-                }
-              );
-            }
-          });
+        if (title.includes(value)) {
+          filtered.push(feature);
         }
+      });
 
-        // Populate the sidebar with filtered results
+      // Set the filter to populate features into the layer.
+      if (filtered.length) {
         setFeatureList(filtered);
       }
+      // TODO:: dynamically update map pins
     },
-    [featureList, mapBox]
+    [featureList]
   );
 
   return { featureList, inputFeatureFilter };

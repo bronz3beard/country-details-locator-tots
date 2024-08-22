@@ -5,15 +5,7 @@ import initMap, { InitMapOptions } from '~/lib/map-box/init-map';
 import { MapBox } from '~/lib/map-box/types';
 import { InitialMapConfig } from './types';
 
-const useInitialMap = ({
-  lat,
-  lng,
-  source,
-  zoom,
-  pitch,
-  bearing,
-  coordinates
-}: InitialMapConfig) => {
+const useInitialMap = ({ lat, lng, zoom, pitch, bearing }: InitialMapConfig) => {
   const [mapBox, setMapBox] = useState<MapBox | null>(null);
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -28,21 +20,20 @@ const useInitialMap = ({
           map: mapContainer,
           lat,
           lng,
-          source,
           zoom,
           pitch,
-          bearing,
-          coordinates
+          bearing
         } satisfies InitMapOptions);
 
         setMapBox(mapbox);
       }
+
       if (map) {
         map.style.width = '100%';
         return; // initialize map only once
       }
     },
-    [lat, lng, source, zoom, pitch, bearing, coordinates]
+    [lat, lng, zoom, pitch, bearing]
   );
 
   return {
