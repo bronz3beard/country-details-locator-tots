@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import { ReactNode } from 'react';
+import ContextBootstrap from '~/context/context-bootstrap';
 import Navbar from '~/design-system/navbar';
 import './styles/globals.css';
 
@@ -24,8 +25,10 @@ export default function RootLayout({
     <html lang="en" className={poppins.className}>
       <head></head>
       <body className="mx-auto flex min-h-screen flex-col items-center justify-start overscroll-none">
-        <Navbar />
-        <main className="flex flex-col items-center justify-center">{children}</main>
+        <ContextBootstrap>
+          <Navbar />
+          <main className="flex flex-col items-center justify-center">{children}</main>
+        </ContextBootstrap>
       </body>
     </html>
   );

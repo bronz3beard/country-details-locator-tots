@@ -64,46 +64,19 @@ export const mapBoxLoadPointImages = ({
           }
         });
 
-        // if (iconPath) {
-        //   const popup = new mapboxGL.Popup({
-        //     closeButton: false,
-        //     closeOnClick: false
-        //     // className: 'text-black'
-        //   });
+        mapboxGL.on('mouseover', source, (_event) => {
+          if (source === 'Countries') {
+            mapboxGL.getCanvas().style.cursor = 'pointer';
+          }
+        });
 
-        //   mapboxGL.on('mouseover', source, (_event) => {
-        //     mapboxGL.getCanvas().style.cursor = 'pointer';
-
-        //     // const coordinates = event.features[0].geometry.coordinates.slice();
-        //     // popup.setLngLat(coordinates).setHTML(event.features[0].properties.title).addTo(mapboxGL);
-        //   });
-
-        //   let isStatusOnline = true;
-        //   window.addEventListener('online', () => (isStatusOnline = true));
-        //   window.addEventListener('offline', () => (isStatusOnline = false));
-
-        //   mapboxGL.on('click', source, async (event) => {
-        //     const coordinates = event.features?.[0].geometry.coordinates.slice();
-        //     const lat = event.lngLat.lat || coordinates[1];
-        //     const lng = event.lngLat.lng || coordinates[0];
-
-        //     if (isStatusOnline) {
-        //       window.removeEventListener('online', () => (isStatusOnline = true));
-        //       window.removeEventListener('offline', () => (isStatusOnline = false));
-        //     }
-        //     window.open(
-        //       `https://www.google.com/maps/dir//P.${encodeURIComponent(
-        //         features[0].properties.title
-        //       )}/@${lat},${lng},17z`,
-        //       '_blank'
-        //     );
-        //   });
-
-        //   mapboxGL.on('mouseleave', source, () => {
-        //     mapboxGL.getCanvas().style.cursor = '';
-        //     popup.remove();
-        //   });
-        // }
+        mapboxGL.on('click', source, (event) => {
+          if (source === 'Countries') {
+            console.log('🚀 ~ mapboxGL.on ~ source:', source, event);
+          }
+          // const coordinates = event.features[0].geometry.coordinates.slice();
+          // popup.setLngLat(coordinates).setHTML(event.features[0].properties.title).addTo(mapboxGL);
+        });
       });
     }
   }

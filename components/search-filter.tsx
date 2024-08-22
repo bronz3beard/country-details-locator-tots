@@ -1,22 +1,23 @@
-'use client';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { getCountryDetailsByCountryCode } from '~/graphql';
+import { searchCountries } from '~/graphql';
 import useFeatureList from '~/hooks/use-map-features';
+import { MapBox } from '~/lib/map-box/types';
 import DebouncedInput from './debounce-input';
 
-export default function SearchFilter() {
+export default function SearchFilter({ mapBox }: { mapBox: MapBox }) {
   // const router = useRouter();
   const searchParams = useSearchParams();
   const [searchFilter, setSearchFilter] = useState<string>(searchParams.toString());
 
-  const { inputFeatureFilter } = useFeatureList();
+  const { inputFeatureFilter } = useFeatureList(mapBox);
 
   async function handleOnChange(value: string) {
     if (value) {
-      const response = await getCountryDetailsByCountryCode({ query: value });
+      const response = await searchCountries({ query: value });
     }
-
+    setSearchFilter(value);
+    inputFeatureFilter(value);
     // const newParams = new URLSearchParams(searchParams.toString());
 
     // if (search.value) {
@@ -26,8 +27,6 @@ export default function SearchFilter() {
     // }
 
     // router.push(createUrl('/', newParams));
-    setSearchFilter(value);
-    inputFeatureFilter(value);
   }
 
   return (

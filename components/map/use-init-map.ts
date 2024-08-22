@@ -7,12 +7,13 @@ import { InitialMapConfig } from './types';
 
 const useInitialMap = ({ lat, lng, zoom, pitch, bearing }: InitialMapConfig) => {
   const [mapBox, setMapBox] = useState<MapBox | null>(null);
-  const mapRef = useRef<HTMLDivElement | null>(null);
+
   const mapContainer = useRef<HTMLDivElement | null>(null);
 
   useEffect(
     function initialiseMapBox() {
-      const map = mapRef.current;
+      const map = mapContainer.current;
+
       if (mapContainer.current) {
         // Ensure the map container is empty before initializing the map
         mapContainer.current.innerHTML = '';
@@ -26,6 +27,10 @@ const useInitialMap = ({ lat, lng, zoom, pitch, bearing }: InitialMapConfig) => 
         } satisfies InitMapOptions);
 
         setMapBox(mapbox);
+
+        return () => {
+          mapbox.remove();
+        };
       }
 
       if (map) {
@@ -38,7 +43,6 @@ const useInitialMap = ({ lat, lng, zoom, pitch, bearing }: InitialMapConfig) => 
 
   return {
     mapBox,
-    mapRef,
     mapContainer
   };
 };

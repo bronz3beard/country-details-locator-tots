@@ -1,42 +1,41 @@
-import { ApolloQueryResult } from '@apollo/client';
 import apolloClient from '~/lib/apolloClient';
 import { assertIsTrue } from '~/utils/value-checker-utils';
+import { handleQueryResult } from './helpers';
 import { countryCodeFilterQuery } from './schemas/countries-filter/country-code-query';
+import { countryNameFilterQuery } from './schemas/countries-filter/country-name-query';
 import {
   CountriesFilterQuery,
   CountriesFilterQueryVariables
 } from './schemas/countries-filter/types';
+import { countryDetailsQuery } from './schemas/country-details.query';
 
-function handleQueryResult<T>(result: ApolloQueryResult<T>) {
-  const { data, errors, error, loading } = result;
+export async function searchCountries({ query }: CountriesFilterQueryVariables) {
+  const [codeQueryResult, nameQueryResult] = await Promise.all([
+    apolloClient.query<CountriesFilterQuery>({
+      query: countryCodeFilterQuery,
+      variables: { query }
+    }),
+    apolloClient.query<CountriesFilterQuery>({
+      query: countryNameFilterQuery,
+      variables: { query: `.*${query}.*` } // Example regex to match names containing the query
+    })
+  ]);
+  const codeResult = handleQueryResult(codeQueryResult);
+  const nameResult = handleQueryResult(nameQueryResult);
+  const codeNodes = codeResult.data?.countries?.nodes ?? [];
+  const nameNodes = nameResult.data?.countries?.nodes ?? [];
 
-  if (loading) {
-    console.log('Loading data...');
-    return { data: null, errors: null, error: null, loading };
-  }
+  // Combine results and use a Set to ensure uniqueness based on `code`
+  const combinedResults = [...codeNodes, ...nameNodes];
 
-  if (errors && errors.length > 0) {
-    console.error('GraphQL Errors:', errors);
-    // Handle GraphQL errors
-    return { data: null, errors: errors[0], error: null, loading: false };
-  }
+  const uniqueResults = Array.from(new Map(combinedResults.map((c) => [c.code, c])).values());
 
-  if (error) {
-    console.error('Apollo Error:', error);
-    // Handle network or other Apollo errors
-    return { data: null, errors: null, error: error, loading: false };
-  }
-
-  if (data) {
-    console.log('Query successful:', data);
-    // Handle the successful query result
-    return { data, errors: null, error: error, loading: false };
-  }
+  return uniqueResults;
 }
 
 export async function getCountryDetailsByCountryCode({ query }: CountriesFilterQueryVariables) {
   const result = await apolloClient.query<CountriesFilterQuery>({
-    query: countryCodeFilterQuery,
+    query: countryDetailsQuery,
     variables: {
       query // or "United States"
     }

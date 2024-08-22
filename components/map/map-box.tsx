@@ -1,11 +1,9 @@
 'use client';
 
+import { MutableRefObject } from 'react';
 import { mapConfig } from './constants';
-import useInitialMap from './use-init-map';
 
-const MapBox = () => {
-  const { mapContainer } = useInitialMap(mapConfig);
-
+const MapBox = ({ mapContainer }: { mapContainer: MutableRefObject<HTMLDivElement | null> }) => {
   return mapContainer ? (
     <div
       style={{

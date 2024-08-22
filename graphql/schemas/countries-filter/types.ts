@@ -7,7 +7,6 @@ export type CountriesFilterQuery = {
     nodes: Array<{
       code: string;
       name: string;
-      continent: string;
       currency: string;
     }>;
   };
