@@ -4,18 +4,19 @@ import { handleQueryResult } from './helpers';
 import { countryCodeFilterQuery } from './schemas/countries-filter/country-code-query';
 import { countryNameFilterQuery } from './schemas/countries-filter/country-name-query';
 import {
-  CountriesFilterQuery,
-  CountriesFilterQueryVariables
+  CountriesFilterQueryResult,
+  CountryDetailsQueryResult,
+  QueryVariables
 } from './schemas/countries-filter/types';
 import { countryDetailsQuery } from './schemas/country-details.query';
 
-export async function searchCountries({ query }: CountriesFilterQueryVariables) {
+export async function searchCountries({ query }: QueryVariables) {
   const [codeQueryResult, nameQueryResult] = await Promise.all([
-    apolloClient.query<CountriesFilterQuery>({
+    apolloClient.query<CountriesFilterQueryResult>({
       query: countryCodeFilterQuery,
       variables: { query }
     }),
-    apolloClient.query<CountriesFilterQuery>({
+    apolloClient.query<CountriesFilterQueryResult>({
       query: countryNameFilterQuery,
       variables: { query: `.*${query}.*` } // Example regex to match names containing the query
     })
@@ -33,8 +34,8 @@ export async function searchCountries({ query }: CountriesFilterQueryVariables) 
   return uniqueResults;
 }
 
-export async function getCountryDetailsByCountryCode({ query }: CountriesFilterQueryVariables) {
-  const result = await apolloClient.query<CountriesFilterQuery>({
+export async function getCountryDetailsByCountryCode({ query }: QueryVariables) {
+  const result = await apolloClient.query<CountryDetailsQueryResult>({
     query: countryDetailsQuery,
     variables: {
       query // or "United States"
@@ -42,6 +43,5 @@ export async function getCountryDetailsByCountryCode({ query }: CountriesFilterQ
   });
   assertIsTrue(!!result);
 
-  console.log('🚀 ~ getCountryDetailsByCountryCode ~ result:', result);
   return handleQueryResult(result);
 }

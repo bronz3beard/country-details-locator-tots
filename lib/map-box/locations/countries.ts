@@ -1,7 +1,7 @@
 import { getPointIconFactory } from '../get-point-icon-factory';
 import { Countries, Country } from './types.countries';
 
-const countriesData: Countries = [
+export const countriesData: Countries = [
   {
     Country: 'United States',
     'ISO Code': 'US',

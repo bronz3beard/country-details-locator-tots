@@ -7,7 +7,7 @@ export default function Navbar() {
   const { mapBox } = useMapState();
 
   return (
-    <nav className="relative top-0 flex w-full items-center justify-between p-2">
+    <nav className="relative top-0 flex w-full items-center justify-between bg-gray-900 p-2">
       <div className="flex w-full items-center">
         <div className="flex w-full md:w-1/3">
           <div className="ml-2 flex-none text-sm font-medium uppercase md:hidden lg:block">
