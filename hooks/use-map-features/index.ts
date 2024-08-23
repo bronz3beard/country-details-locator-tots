@@ -1,7 +1,6 @@
 import { Point } from 'geojson';
 import { useCallback, useState } from 'react';
 import { sanMartinDeLosAndes } from '~/components/map/constants';
-import { searchCountries } from '~/graphql';
 import { latLngBounds } from '~/lib/map-box/init-map';
 import { countries } from '~/lib/map-box/locations/countries';
 import { BuildFeature, MapBox } from '~/lib/map-box/types';
@@ -77,12 +76,6 @@ const useFeatureList = (mapBox: MapBox | null) => {
   const filterFeatures = useCallback(
     async (filterValue: string) => {
       const value = normalizeString(filterValue ?? '');
-      console.log('🚀 ~ value:', value);
-
-      if (value) {
-        const response = await searchCountries({ query: value });
-        console.log('🚀 ~ response:', response);
-      }
       let filteredFeatures: Array<Feature> = originalFeatures;
 
       if (value) {
