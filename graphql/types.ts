@@ -2,22 +2,6 @@ export type QueryVariables = {
   query?: string | null;
 };
 
-export type CountriesFilterQueryResult = {
-  countries: {
-    nodes: Array<{
-      code: string;
-      name: string;
-      currency: string;
-    }>;
-  };
-};
-
-export type CountriesFilterQueryReturnData = Array<{
-  code: string;
-  name: string;
-  currency: string;
-}>;
-
 export type CountryDetailsQueryResult = {
   data: {
     country: {
@@ -31,19 +15,22 @@ export type CountryDetailsQueryResult = {
       currency: string;
       emoji: string;
       emojiU: string;
-      languages: {
+      languages: Array<{
         name: string;
         native: string;
-      }[];
+      }>;
       name: string;
       native: string;
       phone: string;
       phones: Array<string>;
-      states: {
+      states: Array<{
         name: string;
         code: string;
-      }[];
-      subdivisions: Array<unknown>;
+      }>;
+      subdivisions: Array<{
+        name: string;
+        code: string;
+      }>;
     };
   };
 };

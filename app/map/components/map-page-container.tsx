@@ -9,16 +9,13 @@ import MapBox from '~/components/map/map-box';
 import useInitialMap from '~/components/map/use-init-map';
 import SidebarMenu from '~/components/sidebar-menu';
 import { AppDrawers } from '~/context/drawer-context/types';
-import Button from '~/design-system/button';
 import Drawer from '~/design-system/drawer';
 import { DrawerAnchor } from '~/design-system/drawer/types';
 import Navbar from '~/design-system/navbar';
-import {
-  CountryDetails,
-  CountryDetailsQueryReturnData
-} from '~/graphql/schemas/countries-filter/types';
+import { CountryDetails, CountryDetailsQueryReturnData } from '~/graphql/types';
 import useDialog from '~/hooks/use-dialog';
 import useFeatureList from '~/hooks/use-map-features';
+import DetailsCard from './details-card';
 
 type ContainerProps<T> = {
   countries: CountryDetailsQueryReturnData | null;
@@ -27,7 +24,6 @@ type ContainerProps<T> = {
 
 export default function MapPageContainer<T>({ countries, loading }: ContainerProps<T>) {
   const [countryDetails, setCountryDetails] = useState<CountryDetails | null>(null);
-  console.log('🚀 ~ countryDetails:', countryDetails);
 
   const { mapBox, mapContainer } = useInitialMap(mapConfig);
   const { filterFeatures } = useFeatureList(mapBox);
@@ -48,17 +44,24 @@ export default function MapPageContainer<T>({ countries, loading }: ContainerPro
         mapBox.on('click', 'Countries', (event) => {
           const code = event.features?.[0].properties?.iso;
 
-          filterFeatures(code);
+          if (code) {
+            filterFeatures(code);
 
-          const countryDetails = countries?.find((item) => item.country.code === code);
-          setCountryDetails(countryDetails ?? null);
+            const countryDetails = countries?.find((item) => item.country.code === code);
+            setCountryDetails(countryDetails ?? null);
 
-          handleOpenDialog();
+            handleOpenDialog();
+          }
         });
       }
     },
     [mapBox, countries, filterFeatures, handleOpenDialog]
   );
+
+  const closeDialog = () => {
+    filterFeatures('');
+    handleDialogClose();
+  };
 
   return loading ? (
     <PageLoader />
@@ -99,61 +102,30 @@ export default function MapPageContainer<T>({ countries, loading }: ContainerPro
       </div>
       <DialogPortal
         {...{
-          handleDecline: handleDialogClose,
-          isRelativeToParent: true,
+          onClose: closeDialog,
           showModal: openDialog,
-          className: 'md:!w-1/3 !w-1/2 lg:right-12 right-1/4 top-1/4'
+          isRelativeToParent: true,
+          className: 'mx-auto top-8 flex justify-end md:top-24 md:right-24 right-0 w-auto px-0.5'
         }}
       >
-        {({ onDecline }) => {
+        {() => {
           return (
-            <div className="relative max-h-full w-full max-w-3xl">
-              {/* <!-- Modal content --> */}
-              <div className="relative select-none rounded-lg bg-white shadow dark:bg-gray-700">
-                {/* <!-- Modal header --> */}
-
-                <ConditionalWrapper conditional={countryDetails}>
-                  {({ value: { country } }) => {
-                    return (
-                      <div className="flex w-full flex-col items-start justify-between px-4 pt-4 md:px-5 md:pt-5">
-                        <div className="flex w-full flex-col items-start justify-between">
-                          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                            {country.name}
-                          </h1>
-
-                          <div>
-                            <h2 className="mb-2 text-lg font-semibold leading-relaxed text-gray-900 dark:text-white">
-                              Capital City: {country.capital}
-                            </h2>
-                          </div>
-                        </div>
-
-                        <div className="space-y-2 p-4 md:p-5">
-                          <h2 className="mb-2 text-lg font-semibold leading-relaxed text-gray-900 dark:text-white">
-                            Languages
-                          </h2>
-                          <ul className="max-w-md list-inside list-disc space-y-1 text-gray-500 dark:text-gray-400">
-                            {country.languages.map(({ name }, index) => (
-                              <li key={index}>{name}</li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div className="flex w-full items-center justify-end space-x-2">
-                          <Button
-                            size="sm"
-                            text="Close"
-                            id="DECLINED"
-                            variant="grow"
-                            onClick={onDecline}
-                          />
-                        </div>
-                      </div>
-                    );
-                  }}
-                </ConditionalWrapper>
-              </div>
-            </div>
+            <ConditionalWrapper conditional={countryDetails}>
+              {({ value: { country } }) => {
+                return (
+                  <DetailsCard
+                    name={country.name}
+                    states={country.states}
+                    flag={`${country.emoji}`}
+                    capital={country.capital}
+                    currency={country.currency}
+                    languages={country.languages}
+                    continent={country.continent.name}
+                    subdivisions={country.subdivisions}
+                  />
+                );
+              }}
+            </ConditionalWrapper>
           );
         }}
       </DialogPortal>

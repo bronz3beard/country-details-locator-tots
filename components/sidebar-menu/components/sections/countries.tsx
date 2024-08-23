@@ -1,11 +1,7 @@
 import dynamic from 'next/dynamic';
 import { MouseEvent } from 'react';
-// import SolidIcon from '~/design-system/icons/solid';
 import OutlineIcon from '~/design-system/icons/outline';
-import {
-  CountryDetails,
-  CountryDetailsQueryReturnData
-} from '~/graphql/schemas/countries-filter/types';
+import { CountryDetails, CountryDetailsQueryReturnData } from '~/graphql/types';
 import MenuItem from '../menu-item';
 const MenuItemExpandable = dynamic(() => import('../menu-item-expandable'), { ssr: false });
 
