@@ -1,9 +1,15 @@
 import { getPointIconFactory } from '../get-point-icon-factory';
 import { Countries, Country } from './types.countries';
+/* NOTE::
+ * country "name" from the API data did not match original data "Country" provided here, so it had to be updated adding "of America" to the "United States" Country value.
+ * This update enables the search filter to work correctly.
+ * Using "native" rather than "name" from the API data cause more issues with search compatibility.
+ * see type for more clarity on API return data "CountryDetailsQueryResult"
+ */
 
 export const countriesData: Countries = [
   {
-    Country: 'United States',
+    Country: 'United States of America',
     'ISO Code': 'US',
     Latitude: 37.0902,
     Longitude: -95.5022
