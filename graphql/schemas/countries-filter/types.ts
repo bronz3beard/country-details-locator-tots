@@ -12,6 +12,12 @@ export type CountriesFilterQueryResult = {
   };
 };
 
+export type CountriesFilterQueryReturnData = Array<{
+  code: string;
+  name: string;
+  currency: string;
+}>;
+
 export type CountryDetailsQueryResult = {
   data: {
     country: {
@@ -43,3 +49,4 @@ export type CountryDetailsQueryResult = {
 };
 
 export type CountryDetails = CountryDetailsQueryResult['data'];
+export type CountryDetailsQueryReturnData = Array<CountryDetails>;

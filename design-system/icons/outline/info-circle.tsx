@@ -1,11 +1,6 @@
 import { IconProps } from '../types';
 
-const OutlineInfoCircle = ({
-  size,
-  color = 'currentColor',
-  className = '',
-  ...rest
-}: IconProps) => {
+const InfoCircle = ({ size, color = 'currentColor', className = '', ...rest }: IconProps) => {
   return (
     <svg width={size} height={size} color={color} className={className} {...rest}>
       <path
@@ -19,4 +14,4 @@ const OutlineInfoCircle = ({
   );
 };
 
-export default OutlineInfoCircle;
+export default InfoCircle;

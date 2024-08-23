@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import { ReactNode } from 'react';
 import ContextBootstrap from '~/context/context-bootstrap';
-import Navbar from '~/design-system/navbar';
 import './styles/globals.css';
 
 const poppins = Poppins({
@@ -12,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Country Details Locator',
+  title: 'Country Explorer',
   description: 'Search for country details'
 };
 
@@ -26,7 +25,6 @@ export default function RootLayout({
       <head></head>
       <body className="mx-auto flex min-h-screen flex-col items-center justify-start overscroll-none">
         <ContextBootstrap>
-          <Navbar />
           <main className="flex flex-col items-center justify-center">{children}</main>
         </ContextBootstrap>
       </body>

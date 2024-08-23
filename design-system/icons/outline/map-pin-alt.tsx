@@ -1,6 +1,6 @@
 import { IconProps } from '../types';
 
-const OutlineMapPinALt = ({ size, color = 'currentColor', className = '', ...rest }: IconProps) => {
+const MapPinALt = ({ size, color = 'currentColor', className = '', ...rest }: IconProps) => {
   return (
     <svg width={size} height={size} color={color} className={className} {...rest}>
       <path
@@ -21,4 +21,4 @@ const OutlineMapPinALt = ({ size, color = 'currentColor', className = '', ...res
   );
 };
 
-export default OutlineMapPinALt;
+export default MapPinALt;

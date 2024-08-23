@@ -1,7 +1,10 @@
 import { Feature, GeoJsonProperties, Geometry, Position } from 'geojson';
 import { Map, SymbolLayerSpecification } from 'mapbox-gl';
 
-export type FeatureType = SymbolLayerSpecification[keyof Pick<SymbolLayerSpecification, 'type'>];
+export type SymbolFeatureType = SymbolLayerSpecification[keyof Pick<
+  SymbolLayerSpecification,
+  'type'
+>];
 
 export type Coordinates = Position;
 
@@ -26,7 +29,7 @@ export type FeatureItem = {
   iconImage: string;
   iconPath: string;
   features: Array<BuildFeature>;
-  type: FeatureType;
+  type: SymbolFeatureType;
 };
 
 export type MapBox = Map;

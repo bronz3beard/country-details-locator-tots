@@ -9,7 +9,7 @@ const PageLoader = () => {
               aria-hidden="true"
               viewBox="0 0 100 101"
               xmlns="http://www.w3.org/2000/svg"
-              className="fill-primary-text inline h-10 w-10 animate-spin text-secondary"
+              className="inline h-10 w-10 animate-spin fill-gray-500 text-gray-500"
             >
               <path
                 fill="currentFill"

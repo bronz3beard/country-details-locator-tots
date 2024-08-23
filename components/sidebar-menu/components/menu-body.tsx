@@ -1,11 +1,13 @@
 import { MouseEvent } from 'react';
-import CountryMenuItems from './sections/countries';
+import CountryMenuItems, { isCountriesTypeGuard } from './sections/countries';
 
-const MenuBody = ({
+const MenuBody = <T,>({
+  data,
   showDrawer,
   // handleMenuItemFeatureClick,
   handleToggleDrawer
 }: {
+  data: Array<T> | null;
   showDrawer: boolean;
   // handleMenuItemFeatureClick: <T>(
   //   event: MouseEvent<HTMLButtonElement>,
@@ -18,6 +20,7 @@ const MenuBody = ({
       <CountryMenuItems
         showDrawer={showDrawer}
         handleToggleDrawer={handleToggleDrawer}
+        countries={isCountriesTypeGuard(data) ? data : null}
         // handleMenuItemFeatureClick={handleMenuItemFeatureClick}
       />
     </ul>

@@ -1,33 +1,35 @@
+'use client';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import { searchCountries } from '~/graphql';
+import { useCallback, useState } from 'react';
+import Button from '~/design-system/button';
+import OutlineIcon from '~/design-system/icons/outline';
 import useFeatureList from '~/hooks/use-map-features';
 import { MapBox } from '~/lib/map-box/types';
 import DebouncedInput from './debounce-input';
 
-export default function SearchFilter({ mapBox }: { mapBox: MapBox }) {
+export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
   // const router = useRouter();
   const searchParams = useSearchParams();
   const [searchFilter, setSearchFilter] = useState<string>(searchParams.toString());
 
   const { inputFeatureFilter } = useFeatureList(mapBox);
 
-  async function handleOnChange(value: string) {
-    if (value) {
-      const response = await searchCountries({ query: value });
-    }
-    setSearchFilter(value);
-    inputFeatureFilter(value);
-    // const newParams = new URLSearchParams(searchParams.toString());
+  const handleOnChange = useCallback(
+    async (value: string) => {
+      setSearchFilter(value);
+      inputFeatureFilter(value);
+      // const newParams = new URLSearchParams(searchParams.toString());
 
-    // if (search.value) {
-    //   newParams.set('q', search.value);
-    // } else {
-    //   newParams.delete('q');
-    // }
+      // if (search.value) {
+      //   newParams.set('q', search.value);
+      // } else {
+      //   newParams.delete('q');
+      // }
 
-    // router.push(createUrl('/', newParams));
-  }
+      // router.push(createUrl('/', newParams));
+    },
+    [inputFeatureFilter]
+  );
 
   return (
     <div className="w-max-[550px] relative w-full lg:w-80 xl:w-full">
@@ -37,17 +39,23 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox }) {
         name="search"
         autoComplete="off"
         id="country-filter"
+        value={searchFilter}
+        onChange={handleOnChange}
+        key={searchParams?.get('q')}
         placeholder="Search Countries"
         ariaLabel="Country Search Filter"
-        key={searchParams?.get('q')}
-        onChange={handleOnChange}
-        value={searchFilter}
         className="w-full rounded-lg border border-neutral-100 bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-100 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-100"
       />
 
-      <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
-        {/* <MagnifyingGlassIcon className="h-4" /> */}
-      </div>
+      <Button
+        size="sm"
+        variant="subtle"
+        disabled={!searchFilter}
+        onClick={() => setSearchFilter('')}
+        className="absolute right-0 top-0 mr-3 flex h-full items-center"
+      >
+        <OutlineIcon name={!searchFilter ? 'search' : 'close'} className="h-4" />
+      </Button>
     </div>
   );
 }

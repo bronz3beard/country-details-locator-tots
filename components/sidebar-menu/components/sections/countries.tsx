@@ -1,44 +1,29 @@
 import dynamic from 'next/dynamic';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent } from 'react';
 // import SolidIcon from '~/design-system/icons/solid';
 import OutlineIcon from '~/design-system/icons/outline';
-import { getCountryDetailsByCountryCode } from '~/graphql';
-import { CountryDetails } from '~/graphql/schemas/countries-filter/types';
-import { countriesData } from '~/lib/map-box/locations/countries';
+import {
+  CountryDetails,
+  CountryDetailsQueryReturnData
+} from '~/graphql/schemas/countries-filter/types';
 import MenuItem from '../menu-item';
 const MenuItemExpandable = dynamic(() => import('../menu-item-expandable'), { ssr: false });
 
+export function isCountriesTypeGuard(data: any): data is CountryDetailsQueryReturnData {
+  return Array.isArray(data) && data.every((item) => 'country' in item);
+}
+
 const CountryMenuItems = ({
+  countries,
   showDrawer,
   // handleMenuItemFeatureClick,
   handleToggleDrawer
 }: {
+  countries: CountryDetailsQueryReturnData | null;
   showDrawer: boolean;
   // handleMenuItemFeatureClick: (event: MouseEvent<HTMLButtonElement>) => void;
   handleToggleDrawer: (event: MouseEvent<HTMLButtonElement>) => void;
 }) => {
-  const [countries, setCountries] = useState<Array<CountryDetails | null>>([]);
-
-  useEffect(function getCountryDetailsData() {
-    const fetchData = async () => {
-      // Create an array of promises using country codes from static data
-      const countryDetailsPromises = countriesData.map(async (country) => {
-        const { 'ISO Code': iso } = country;
-        const countryData = await getCountryDetailsByCountryCode({ query: iso });
-
-        const countryDetails: CountryDetails | null =
-          (countryData.data as unknown as CountryDetails) ?? null;
-
-        return countryDetails;
-      });
-      const fetchedCountries = await Promise.all(countryDetailsPromises);
-
-      setCountries(fetchedCountries ?? []);
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <MenuItemExpandable
       title="Countries"

@@ -1,6 +1,14 @@
-import { ApolloQueryResult } from '@apollo/client';
+import { ApolloError, ApolloQueryResult } from '@apollo/client';
+import { GraphQLFormattedError } from 'graphql';
 
-export function handleQueryResult<T>(result: ApolloQueryResult<T>) {
+export interface QueryRequestResult<T> {
+  data: T | null;
+  errors: GraphQLFormattedError | null;
+  error: ApolloError | null;
+  loading: boolean;
+}
+
+export function handleQueryResult<T>(result: ApolloQueryResult<T>): QueryRequestResult<T> {
   const { data, errors, error, loading } = result;
 
   if (loading) {
@@ -20,7 +28,7 @@ export function handleQueryResult<T>(result: ApolloQueryResult<T>) {
 
   if (data) {
     console.debug('Query successful:');
-    return { data, errors: null, error: error, loading: false };
+    return { data, errors: null, error: null, loading: false };
   }
 
   return { data: null, errors: null, error: null, loading: false };

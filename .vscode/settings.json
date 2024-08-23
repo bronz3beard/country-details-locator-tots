@@ -82,8 +82,6 @@
   "javascript.suggest.paths": true,
   "javascript.suggestionActions.enabled": true,
   "javascript.validate.enable": true,
-  "jest.jestCommandLine": "npm run test:jest",
-  "jest.rootPath": ".",
   "json.format.enable": true,
   "notebook.cellToolbarLocation": {
     "default": "right",

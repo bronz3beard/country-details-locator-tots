@@ -1,6 +1,7 @@
 import { Point } from 'geojson';
 import { useCallback, useState } from 'react';
 import { sanMartinDeLosAndes } from '~/components/map/constants';
+import { searchCountries } from '~/graphql';
 import { latLngBounds } from '~/lib/map-box/init-map';
 import { countries } from '~/lib/map-box/locations/countries';
 import { BuildFeature, MapBox } from '~/lib/map-box/types';
@@ -10,7 +11,7 @@ interface Feature extends BuildFeature {}
 
 const bounds = latLngBounds();
 
-const useFeatureList = (mapBox: MapBox) => {
+const useFeatureList = (mapBox: MapBox | null) => {
   const [featureList, setFeatureList] = useState<Array<Feature>>([]);
   const [originalFeatures] = useState<Array<Feature>>([...countries]);
 
@@ -65,8 +66,14 @@ const useFeatureList = (mapBox: MapBox) => {
   );
 
   const inputFeatureFilter = useCallback(
-    (filterValue: string) => {
+    async (filterValue: string) => {
       const value = normalizeString(filterValue ?? '');
+      console.log('🚀 ~ value:', value);
+
+      if (value) {
+        const response = await searchCountries({ query: value });
+        console.log('🚀 ~ response:', response);
+      }
       let filteredFeatures: Array<Feature> = originalFeatures;
 
       if (value) {
@@ -83,12 +90,6 @@ const useFeatureList = (mapBox: MapBox) => {
     },
     [originalFeatures, updateMapFilter, updateMapZoom]
   );
-
-  // useEffect(() => {
-  //   // Initialize the feature list on mount
-  //   // setFeatureList(originalFeatures);
-  //   updateMapFilter(originalFeatures);
-  // }, [originalFeatures, updateMapFilter]);
 
   return { featureList, inputFeatureFilter };
 };

@@ -6,12 +6,11 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-blue-700 hover:bg-blue-50 active:bg-gray-200 hover:text-blue-700',
-        danger: 'bg-red-500 text-primary-text hover:bg-red-600 dark:hover:bg-red-600',
-        secondary:
-          'bg-transparent border border-slate-200 dark:border-slate-700 dark:text-primary-text',
-        subtle: 'bg-transparent active:bg-transparent hover:bg-transparent text-primary-text',
+        danger: 'bg-red-500 text-black hover:bg-red-600 dark:hover:bg-red-600',
+        secondary: 'bg-transparent border border-slate-200 dark:border-slate-700',
+        subtle: 'bg-transparent active:bg-transparent hover:bg-transparent',
         disabled: 'bg-opacity-70 pointer-events-none',
-        link: 'bg-transparent active:bg-transparent dark:bg-transparent underline-offset-1 underline text-slate-900 dark:text-primary-text hover:bg-transparent dark:hover:bg-transparent',
+        link: 'bg-transparent active:bg-transparent dark:bg-transparent underline-offset-1 underline text-slate-900 hover:bg-transparent dark:hover:bg-transparent',
         grow: 'bg-transparent transform transition hover:scale-105 duration-300 ease-in-out'
       },
       size: {

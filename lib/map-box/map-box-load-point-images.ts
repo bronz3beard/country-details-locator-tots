@@ -1,4 +1,4 @@
-import { BuildFeature, FeatureType, LayerFeatureSource, MapBox } from './types';
+import { BuildFeature, LayerFeatureSource, MapBox, SymbolFeatureType } from './types';
 
 type LoadPointImages = {
   source: LayerFeatureSource;
@@ -6,7 +6,7 @@ type LoadPointImages = {
   iconPath: string;
   features: Array<BuildFeature>;
   mapboxGL: MapBox;
-  type: FeatureType;
+  type: SymbolFeatureType;
   updateLayer?: boolean;
 };
 

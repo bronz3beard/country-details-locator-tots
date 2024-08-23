@@ -1,11 +1,6 @@
 import { IconProps } from '../types';
 
-const OutlineChevronRight = ({
-  size,
-  color = 'currentColor',
-  className = '',
-  ...rest
-}: IconProps) => {
+const ChevronRight = ({ size, color = 'currentColor', className = '', ...rest }: IconProps) => {
   return (
     <svg width={size} height={size} color={color} className={className} {...rest}>
       <path
@@ -19,4 +14,4 @@ const OutlineChevronRight = ({
   );
 };
 
-export default OutlineChevronRight;
+export default ChevronRight;
