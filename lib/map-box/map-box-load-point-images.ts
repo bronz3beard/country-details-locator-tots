@@ -69,13 +69,10 @@ export const mapBoxLoadPointImages = ({
             mapboxGL.getCanvas().style.cursor = 'pointer';
           }
         });
-
-        mapboxGL.on('click', source, (event) => {
+        mapboxGL.on('mouseout', source, (_event) => {
           if (source === 'Countries') {
-            console.log('🚀 ~ mapboxGL.on ~ source:', source, event);
+            mapboxGL.getCanvas().style.cursor = 'grab';
           }
-          // const coordinates = event.features[0].geometry.coordinates.slice();
-          // popup.setLngLat(coordinates).setHTML(event.features[0].properties.title).addTo(mapboxGL);
         });
       });
     }

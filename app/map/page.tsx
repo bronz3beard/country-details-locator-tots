@@ -1,3 +1,4 @@
+'use server';
 import GraphQlError from '~/components/data-response-error';
 import { getCountryDetailsByCountryCode } from '~/graphql';
 import MapPageContainer from './components/map-page-container';
@@ -8,6 +9,6 @@ export default async function MapPage() {
   return error || errors ? (
     <GraphQlError error={error} errors={errors} />
   ) : (
-    <MapPageContainer data={data} loading={loading} />
+    <MapPageContainer countries={data} loading={loading} />
   );
 }

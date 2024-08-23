@@ -8,7 +8,7 @@ import { cn } from '~/utils/style.utils';
 const MenuItem = ({
   id,
   label,
-  // handleClick,
+  handleClick,
   icon,
   suffix,
   className,
@@ -17,7 +17,7 @@ const MenuItem = ({
   id?: string | undefined;
   label: string;
   showDrawer: boolean;
-  // handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
   icon?: ReactNode;
   suffix?: ReactNode;
   className?: string;
@@ -29,7 +29,7 @@ const MenuItem = ({
     const { id } = event.currentTarget;
 
     setItemSelect((id ?? label).includes(id));
-    // handleClick(event);
+    handleClick(event);
   };
 
   return (

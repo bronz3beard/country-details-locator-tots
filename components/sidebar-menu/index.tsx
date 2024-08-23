@@ -8,10 +8,7 @@ type SideBarProps<T> = {
   showDrawer: boolean;
   handleCloseDrawer: () => void;
   handleOpenDrawer: () => void;
-  // handleMenuItemFeatureClick: <T>(
-  //   event: MouseEvent<HTMLButtonElement>,
-  //   features?: Array<T>
-  // ) => void;
+  handleMenuItemClick: (code: string) => void;
   handleToggleDrawer: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
@@ -21,7 +18,7 @@ const Sidebar = <T,>(
     showDrawer,
     handleCloseDrawer,
     handleOpenDrawer,
-    // handleMenuItemFeatureClick,
+    handleMenuItemClick,
     handleToggleDrawer
   }: SideBarProps<T>,
   ref: Ref<HTMLDivElement>
@@ -44,7 +41,7 @@ const Sidebar = <T,>(
           data={data}
           showDrawer={showDrawer}
           handleToggleDrawer={handleToggleDrawer}
-          // handleMenuItemFeatureClick={handleMenuItemFeatureClick}
+          handleMenuItemClick={handleMenuItemClick}
         />
       </div>
       <MenuFooter showDrawer={showDrawer} />

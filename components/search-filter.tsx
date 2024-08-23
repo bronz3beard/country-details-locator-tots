@@ -12,12 +12,12 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
   const searchParams = useSearchParams();
   const [searchFilter, setSearchFilter] = useState<string>(searchParams.toString());
 
-  const { inputFeatureFilter } = useFeatureList(mapBox);
+  const { filterFeatures } = useFeatureList(mapBox);
 
   const handleOnChange = useCallback(
     async (value: string) => {
       setSearchFilter(value);
-      inputFeatureFilter(value);
+      filterFeatures(value);
       // const newParams = new URLSearchParams(searchParams.toString());
 
       // if (search.value) {
@@ -28,7 +28,7 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
 
       // router.push(createUrl('/', newParams));
     },
-    [inputFeatureFilter]
+    [filterFeatures]
   );
 
   return (

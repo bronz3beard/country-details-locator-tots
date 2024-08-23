@@ -16,14 +16,21 @@ export function isCountriesTypeGuard(data: any): data is CountryDetailsQueryRetu
 const CountryMenuItems = ({
   countries,
   showDrawer,
-  // handleMenuItemFeatureClick,
-  handleToggleDrawer
+  handleToggleDrawer,
+  handleMenuItemClick
 }: {
-  countries: CountryDetailsQueryReturnData | null;
   showDrawer: boolean;
-  // handleMenuItemFeatureClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  handleMenuItemClick: (code: string) => void;
+  countries: CountryDetailsQueryReturnData | null;
   handleToggleDrawer: (event: MouseEvent<HTMLButtonElement>) => void;
 }) => {
+  const handleOnItemClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const { id } = event.currentTarget;
+
+    handleMenuItemClick(id);
+  };
+
   return (
     <MenuItemExpandable
       title="Countries"
@@ -59,6 +66,7 @@ const CountryMenuItems = ({
 
           return (
             <MenuItem
+              id={code}
               key={index}
               className="my-2"
               label={name}
@@ -68,7 +76,7 @@ const CountryMenuItems = ({
                   {`${emoji}`}
                 </span>
               }
-              // handleClick={handleMenuItemFeatureClick}
+              handleClick={handleOnItemClick}
             />
           );
         } else {

@@ -4,15 +4,12 @@ import CountryMenuItems, { isCountriesTypeGuard } from './sections/countries';
 const MenuBody = <T,>({
   data,
   showDrawer,
-  // handleMenuItemFeatureClick,
+  handleMenuItemClick,
   handleToggleDrawer
 }: {
   data: Array<T> | null;
   showDrawer: boolean;
-  // handleMenuItemFeatureClick: <T>(
-  //   event: MouseEvent<HTMLButtonElement>,
-  //   features?: Array<T>
-  // ) => void;
+  handleMenuItemClick: (code: string) => void;
   handleToggleDrawer: (event: MouseEvent<HTMLButtonElement>) => void;
 }) => {
   return (
@@ -20,8 +17,8 @@ const MenuBody = <T,>({
       <CountryMenuItems
         showDrawer={showDrawer}
         handleToggleDrawer={handleToggleDrawer}
+        handleMenuItemClick={handleMenuItemClick}
         countries={isCountriesTypeGuard(data) ? data : null}
-        // handleMenuItemFeatureClick={handleMenuItemFeatureClick}
       />
     </ul>
   );
