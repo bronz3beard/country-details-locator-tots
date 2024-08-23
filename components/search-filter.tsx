@@ -25,7 +25,7 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
       handleSearchQueryParam(value);
       filterFeatures(value);
     },
-    [filterFeatures]
+    [filterFeatures, handleSearchQueryParam]
   );
 
   const closeDialog = () => {

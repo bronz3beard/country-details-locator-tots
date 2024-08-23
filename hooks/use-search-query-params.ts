@@ -1,4 +1,5 @@
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
 import { createUrl } from '~/utils/url-utils';
 
 const useSearchQueryParam = () => {
@@ -6,7 +7,7 @@ const useSearchQueryParam = () => {
   const searchParams = useSearchParams();
   const searchFilter = searchParams?.get('q');
 
-  const handleSearchQueryParam = (value: string) => {
+  const handleSearchQueryParam = useCallback((value: string) => {
     const newParams = new URLSearchParams(searchParams.toString());
 
     if (value) {
@@ -16,13 +17,13 @@ const useSearchQueryParam = () => {
     }
 
     router.push(createUrl('/', newParams));
-  };
+  }, []);
 
-  const handleClearSearchQueryParam = () => {
+  const handleClearSearchQueryParam = useCallback(() => {
     const newParams = new URLSearchParams(searchParams.toString());
     newParams.delete('q');
     router.push(createUrl('/', newParams));
-  };
+  }, []);
 
   return { searchFilter, handleSearchQueryParam, handleClearSearchQueryParam };
 };

@@ -31,11 +31,6 @@ export default function MapPageContainer<T>({ countries, loading }: ContainerPro
   const { openDialog, handleOpenDialog, handleDialogClose } = useDialog();
   const { searchFilter, handleClearSearchQueryParam } = useSearchQueryParam();
 
-  const clearSearchParams = () => {
-    handleDialogClose();
-    handleClearSearchQueryParam();
-  };
-
   const handleFeatureClick = (code: string) => {
     filterFeatures(code);
 
@@ -68,17 +63,19 @@ export default function MapPageContainer<T>({ countries, loading }: ContainerPro
   const closeDialog = () => {
     filterFeatures('');
     handleDialogClose();
-    clearSearchParams();
+    handleClearSearchQueryParam();
   };
 
   useEffect(
     function closeDialogWhenSearchFilterIsEmpty() {
       if (!searchFilter) {
-        closeDialog();
+        handleDialogClose();
+        handleClearSearchQueryParam();
       }
     },
-    [searchFilter]
+    [searchFilter, handleDialogClose, handleClearSearchQueryParam]
   );
+
   return loading ? (
     <PageLoader />
   ) : (
