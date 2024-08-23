@@ -36,29 +36,7 @@ const CountryMenuItems = ({
     >
       {countries?.map((item: CountryDetails | null, index) => {
         if (item?.country) {
-          const {
-            awsRegion,
-            capital,
-            code,
-            continent,
-            currencies,
-            currency,
-            emoji,
-            emojiU,
-            // languages: {
-            //   name,
-            //   native,
-            // }[];
-            name,
-            native,
-            phone,
-            phones,
-            // states: {
-            //   name,
-            //   code,
-            // }[];
-            subdivisions
-          } = item.country;
+          const { code, emoji, name } = item.country;
 
           return (
             <MenuItem

@@ -1,18 +1,19 @@
 'use client';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import Button from '~/design-system/button';
 import OutlineIcon from '~/design-system/icons/outline';
 import useDialog from '~/hooks/use-dialog';
 import useFeatureList from '~/hooks/use-map-features';
+import useSearchQueryParam from '~/hooks/use-search-query-params';
 import { MapBox } from '~/lib/map-box/types';
 import DebouncedInput from './debounce-input';
 import { DialogPortal } from './dialog';
 
 export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
-  const [searchFilter, setSearchFilter] = useState<string>('');
-
   const { handleDialogClose } = useDialog();
   const { featureList, filterFeatures } = useFeatureList(mapBox);
+  const { searchFilter, handleSearchQueryParam, handleClearSearchQueryParam } =
+    useSearchQueryParam();
 
   const showModal = useMemo(
     () => featureList.length === 0 && !!searchFilter,
@@ -21,7 +22,7 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
 
   const handleOnChange = useCallback(
     async (value: string) => {
-      setSearchFilter(value);
+      handleSearchQueryParam(value);
       filterFeatures(value);
     },
     [filterFeatures]
@@ -29,7 +30,7 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
 
   const closeDialog = () => {
     handleDialogClose();
-    setSearchFilter('');
+    handleClearSearchQueryParam();
   };
 
   return (
@@ -41,10 +42,10 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
           name="search"
           autoComplete="off"
           id="country-filter"
-          value={searchFilter}
           onChange={handleOnChange}
           placeholder="Search Countries"
           ariaLabel="Country Search Filter"
+          value={searchFilter || ''}
           className="w-full rounded-lg border border-neutral-100 bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-100 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-100"
         />
 
@@ -52,7 +53,7 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
           size="sm"
           variant="subtle"
           disabled={!searchFilter}
-          onClick={() => setSearchFilter('')}
+          onClick={() => handleClearSearchQueryParam()}
           className="absolute right-0 top-0 mr-3 flex h-full items-center"
         >
           <OutlineIcon name={!searchFilter ? 'search' : 'close'} className="h-4" />

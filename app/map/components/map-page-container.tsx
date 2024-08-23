@@ -15,6 +15,7 @@ import Navbar from '~/design-system/navbar';
 import { CountryDetails, CountryDetailsQueryReturnData } from '~/graphql/types';
 import useDialog from '~/hooks/use-dialog';
 import useFeatureList from '~/hooks/use-map-features';
+import useSearchQueryParam from '~/hooks/use-search-query-params';
 import DetailsCard from './details-card';
 
 type ContainerProps<T> = {
@@ -28,6 +29,12 @@ export default function MapPageContainer<T>({ countries, loading }: ContainerPro
   const { mapBox, mapContainer } = useInitialMap(mapConfig);
   const { filterFeatures } = useFeatureList(mapBox);
   const { openDialog, handleOpenDialog, handleDialogClose } = useDialog();
+  const { searchFilter, handleClearSearchQueryParam } = useSearchQueryParam();
+
+  const clearSearchParams = () => {
+    handleDialogClose();
+    handleClearSearchQueryParam();
+  };
 
   const handleFeatureClick = (code: string) => {
     filterFeatures(code);
@@ -61,8 +68,17 @@ export default function MapPageContainer<T>({ countries, loading }: ContainerPro
   const closeDialog = () => {
     filterFeatures('');
     handleDialogClose();
+    clearSearchParams();
   };
 
+  useEffect(
+    function closeDialogWhenSearchFilterIsEmpty() {
+      if (!searchFilter) {
+        closeDialog();
+      }
+    },
+    [searchFilter]
+  );
   return loading ? (
     <PageLoader />
   ) : (
