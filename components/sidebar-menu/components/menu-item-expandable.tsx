@@ -1,9 +1,9 @@
 'use client';
-import { MouseEvent, ReactNode, useState } from 'react';
+import { MouseEvent, ReactNode, useRef, useState } from 'react';
 import Button from '~/design-system/button';
-// import OutlineIcon from '~/design-system/icons/outline';
-// import ToolTip from '~/design-system/tool-tip';
-// import { ToolTipDirection } from '~/design-system/tool-tip/types';
+import OutlineIcon from '~/design-system/icons/outline';
+import ToolTip from '~/design-system/tool-tip';
+import { ToolTipDirection } from '~/design-system/tool-tip/types';
 
 type MenuItemExpandableProps = {
   children: ReactNode;
@@ -28,7 +28,8 @@ const MenuItemExpandable = ({
     const storedState = localStorage.getItem(STORAGE_KEY);
     return storedState ? JSON.parse(storedState) : false;
   });
-  console.log('🚀 ~ isExpanded:', isExpanded);
+  const toolTipRef = useRef<HTMLDivElement>(null);
+
   const handleOnClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const STORAGE_KEY = title.toLowerCase().replace(' ', '-');
@@ -60,30 +61,32 @@ const MenuItemExpandable = ({
         size="auto"
         variant="subtle"
         onClick={handleOnClick}
-        className={`${nestedExpandable ? 'pl-0' : 'pl-0'} relative flex h-min w-full ${showDrawer ? '' : 'justify-end px-2 align-middle'} text-lg font-medium duration-200`}
+        className={`relative flex h-min w-full px-2 text-lg font-medium duration-200 ${showDrawer ? '' : 'justify-end align-middle'}`}
       >
         <div
-          className={`${isExpanded ? 'h-9 bg-gray-400 text-gray-100' : 'h-9 text-gray-100 hover:text-white'} ${showDrawer ? 'w-full grow justify-start' : 'w-24 justify-end pr-6'} flex shrink basis-0 items-center gap-3 rounded-lg px-2`}
+          ref={toolTipRef}
+          className={`px-2 ${showDrawer ? 'w-full grow justify-between' : 'mr-2 justify-end align-middle'} ${isExpanded ? 'h-9 bg-gray-600 text-gray-100' : 'h-9 text-gray-100 hover:text-white'} flex shrink basis-0 items-center gap-3 rounded-lg`}
         >
-          {/* {showDrawer ? (
-            icon
-          ) : (
-            <ToolTip text={title} direction={ToolTipDirection.RIGHT}>
-              {icon}
-            </ToolTip>
-          )} */}
-          {showDrawer && title ? (
-            <div className="text-base font-medium leading-normal text-gray-100 hover:text-white">
-              {title}
-            </div>
+          <span className="flex w-max justify-center gap-2">
+            {showDrawer ? (
+              icon
+            ) : (
+              <ToolTip parentRef={toolTipRef} text={title} direction={ToolTipDirection.RIGHT}>
+                {icon}
+              </ToolTip>
+            )}
+            {showDrawer && title ? (
+              <div className="text-base font-medium leading-normal text-gray-100 hover:text-white">
+                {title}
+              </div>
+            ) : null}
+          </span>
+          {showDrawer ? (
+            <span className={`${isExpanded ? 'rotate-0' : 'rotate-180'} select-none text-gray-100`}>
+              <OutlineIcon name="chevron-down" />
+            </span>
           ) : null}
         </div>
-        {showDrawer ? (
-          <span className={`${isExpanded ? 'rotate-0' : 'rotate-180'} select-none text-gray-100`}>
-            {/* <OutlineIcon name="chevron-down" /> */}
-            {'v'}
-          </span>
-        ) : null}
       </Button>
       <div className={`${isExpanded ? 'block' : 'hidden'}`}>
         <ul className="w-full pl-8">{children}</ul>

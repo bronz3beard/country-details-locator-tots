@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 import { MouseEvent, useEffect, useState } from 'react';
 // import SolidIcon from '~/design-system/icons/solid';
+import OutlineIcon from '~/design-system/icons/outline';
 import { getCountryDetailsByCountryCode } from '~/graphql';
 import { CountryDetails } from '~/graphql/schemas/countries-filter/types';
 import { countriesData } from '~/lib/map-box/locations/countries';
@@ -43,9 +44,9 @@ const CountryMenuItems = ({
       title="Countries"
       showDrawer={showDrawer}
       handleToggleDrawer={handleToggleDrawer}
-      // icon={<SolidIcon name="tailwind" className="text-gray-700" size={25} />}
+      icon={<OutlineIcon name="map-pin-alt" className="text-gray-100" size={25} />}
     >
-      {[...countries, ...countries, ...countries]?.map((item: CountryDetails | null, index) => {
+      {countries?.map((item: CountryDetails | null, index) => {
         if (item?.country) {
           const {
             awsRegion,

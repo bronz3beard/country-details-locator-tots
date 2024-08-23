@@ -1,5 +1,6 @@
 import Badge from '~/design-system/badge';
 import Button from '~/design-system/button';
+import OutlineIcon from '~/design-system/icons/outline';
 // import OutlineIcon from '~/design-system/icons/outline';
 
 type MenuHeaderProps = {
@@ -25,11 +26,9 @@ const MenuHeader = ({ showDrawer, handleCloseDrawer, handleOpenDrawer }: MenuHea
               className={`absolute -right-3 top-0 h-6 w-6 rounded-full bg-slate-600 px-0 py-0`}
             >
               {showDrawer ? (
-                // <OutlineIcon name="arrow-left" size={24} />
-                <span>{'<'}</span>
+                <OutlineIcon name="arrow-left" size={24} />
               ) : (
-                // <OutlineIcon name="arrow-right" size={24} />
-                <span>{'>'}</span>
+                <OutlineIcon name="arrow-right" size={24} />
               )}
             </Badge>
             <span className="sr-only">Close menu</span>

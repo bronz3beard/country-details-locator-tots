@@ -23,7 +23,6 @@ const MenuItem = ({
   className?: string;
 }) => {
   const [itemSelect, setItemSelect] = useState<boolean>(false);
-
   const toolTipRef = useRef<HTMLDivElement>(null);
 
   const handleOnClick = (event: MouseEvent<HTMLButtonElement>) => {

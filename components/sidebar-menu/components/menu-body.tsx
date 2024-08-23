@@ -14,7 +14,7 @@ const MenuBody = ({
   handleToggleDrawer: (event: MouseEvent<HTMLButtonElement>) => void;
 }) => {
   return (
-    <ul className="no-scrollbar flex h-full flex-1 flex-col items-center justify-start gap-4 self-stretch overflow-y-scroll border">
+    <ul className="no-scrollbar flex h-full flex-1 flex-col items-center justify-start gap-4 self-stretch overflow-y-scroll">
       <CountryMenuItems
         showDrawer={showDrawer}
         handleToggleDrawer={handleToggleDrawer}
