@@ -1,9 +1,8 @@
 import { ApolloError, ApolloQueryResult } from '@apollo/client';
-import { GraphQLFormattedError } from 'graphql';
 
 export interface QueryRequestResult<T> {
   data: T | null;
-  errors: GraphQLFormattedError | null;
+  errors: Array<unknown> | null;
   error: ApolloError | null;
   loading: boolean;
 }

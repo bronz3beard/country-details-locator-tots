@@ -1,12 +1,11 @@
 import { ApolloError } from '@apollo/client';
-import { GraphQLFormattedError } from 'graphql';
 
 export default function GraphQlError({
   error,
   errors
 }: {
   error: ApolloError | null;
-  errors: GraphQLFormattedError | null;
+  errors: Array<unknown> | null;
 }) {
   // NOTE::  probably check for common possible known errors and show user friendly response to try fix the issue, also log these errors
   //  for now generic response below is okay
