@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['next/core-web-vitals', 'eslint:recommended', 'prettier'],
+  extends: ['next/core-web-vitals', 'eslint:recommended', 'prettier', 'plugin:jest/recommended'],
   globals: {
     JSX: true,
     Window: true

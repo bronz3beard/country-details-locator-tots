@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot MapPage renders Map Page unchanged 1`] = `
+<MapPageContainer
+  countries={
+    [
+      {
+        "country": {
+          "awsRegion": "mock-east-1",
+          "capital": "Mock City",
+          "code": "MK",
+          "continent": {
+            "name": "Mock",
+          },
+          "currencies": [
+            "M",
+          ],
+          "currency": "M",
+          "emoji": "🏁",
+          "emojiU": "U+MOCK",
+          "languages": [
+            {
+              "name": "MOCK",
+              "native": "Móck",
+            },
+          ],
+          "name": "Mock Test",
+          "native": "Mock Tést",
+          "phone": "0",
+          "phones": [
+            "0",
+          ],
+          "states": [
+            {
+              "code": "MT",
+              "name": "Mock Town",
+            },
+          ],
+          "subdivisions": [],
+        },
+      },
+    ]
+  }
+  loading="false"
+/>
+`;
