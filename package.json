@@ -26,6 +26,7 @@
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "eslint-plugin-jest": "^28.8.0",
     "graphql": "^16.9.0",
     "graphql-tag": "^2.12.6",
     "mapbox-gl": "^3.6.0",
