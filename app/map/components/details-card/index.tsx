@@ -26,7 +26,10 @@ const DetailsCard = ({
   const countrySubdivisions = subdivisions?.length === 0 ? null : subdivisions;
 
   return (
-    <div className="w-[calc(100vw-21px)] select-none overflow-hidden bg-white shadow sm:rounded-lg md:w-auto md:min-w-[34rem]">
+    <div
+      data-testid="test-details-card"
+      className="w-[calc(100vw-21px)] select-none overflow-hidden bg-white shadow sm:rounded-lg md:w-auto md:min-w-[34rem]"
+    >
       <div className="flex items-start justify-between p-2">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-lg font-medium leading-6 text-gray-900">{name}</h3>

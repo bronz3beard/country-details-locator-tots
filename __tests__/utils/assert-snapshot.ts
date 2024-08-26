@@ -1,6 +1,5 @@
 import type { ReactElement } from 'react';
-import makeSnapshot from './make-snapshot';
 
-export function assertSnapshot(node: ReactElement) {
-  return expect(makeSnapshot(node)).toMatchSnapshot();
+export function assertSnapshot(node: ReactElement | HTMLElement) {
+  return expect(node).toMatchSnapshot();
 }

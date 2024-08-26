@@ -1,39 +1,52 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Snapshot MapPage renders Map Page unchanged 1`] = `
+exports[`MapPage Component renders GraphQlError on error 1`] = `
+<GraphQlError
+  error={mockConstructor {}}
+  errors={
+    [
+      mockConstructor {},
+    ]
+  }
+/>
+`;
+
+exports[`MapPage Component renders MapPageContainer on success 1`] = `
 <MapPageContainer
   countries={
     [
       {
         "country": {
-          "awsRegion": "mock-east-1",
-          "capital": "Mock City",
-          "code": "MK",
+          "awsRegion": "us-east-2",
+          "capital": "Washington D.C.",
+          "code": "US",
           "continent": {
-            "name": "Mock",
+            "name": "North America",
           },
           "currencies": [
-            "M",
+            "USD",
+            "USN",
+            "USS",
           ],
-          "currency": "M",
-          "emoji": "🏁",
-          "emojiU": "U+MOCK",
+          "currency": "USD,USN,USS",
+          "emoji": "🇺🇸",
+          "emojiU": "U+1F1FA U+1F1F8",
           "languages": [
             {
-              "name": "MOCK",
-              "native": "Móck",
+              "name": "English",
+              "native": "English",
             },
           ],
-          "name": "Mock Test",
-          "native": "Mock Tést",
-          "phone": "0",
+          "name": "United States of America",
+          "native": "United States",
+          "phone": "1",
           "phones": [
-            "0",
+            "1",
           ],
           "states": [
             {
-              "code": "MT",
-              "name": "Mock Town",
+              "code": "AL",
+              "name": "Alabama",
             },
           ],
           "subdivisions": [],
@@ -41,6 +54,6 @@ exports[`Snapshot MapPage renders Map Page unchanged 1`] = `
       },
     ]
   }
-  loading="false"
+  loading={false}
 />
 `;

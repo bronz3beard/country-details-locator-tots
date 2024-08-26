@@ -1,14 +1,16 @@
-import { ApolloError } from '@apollo/client';
 import { act, render } from '@testing-library/react';
-import { getMapData } from '~/app/map/api/actions';
+import { useRouter } from 'next/navigation';
+import { assertSnapshot } from '~/__tests__/utils/assert-snapshot';
+import { mockFunction } from '~/__tests__/utils/mock-function';
+import renderPropComponent from '~/__tests__/utils/mock-render-props-component';
+import { mockUseEffect } from '~/__tests__/utils/mock-use-effect';
+import { mockUseState } from '~/__tests__/utils/mock-use-state';
 import DetailsCard from '~/app/map/components/details-card';
-import MapPage from '~/app/map/page';
+import MapPageContainer from '~/app/map/components/map-page-container';
 import ConditionalWrapper from '~/components/conditional-wrapper';
-import GraphQlError from '~/components/data-response-error';
+import PageLoader from '~/components/loaders/page-loader';
+import { DrawerProvider } from '~/context/drawer-context';
 import { CountryDetails, CountryDetailsQueryReturnData } from '~/graphql/types';
-import { assertSnapshot } from '../utils/assert-snapshot';
-import renderPropComponent from '../utils/mock-render-props-component';
-import { mockUseState } from '../utils/mock-use-state';
 
 const mockDataDetail: CountryDetails = {
   country: {
@@ -41,66 +43,13 @@ const mockDataDetail: CountryDetails = {
     subdivisions: []
   }
 };
-
 const mockData: CountryDetailsQueryReturnData = [mockDataDetail];
 
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  cache: jest.fn((fn) => fn)
-}));
+mockFunction(useRouter);
 
-jest.mock('@apollo/client', () => ({
-  ApolloClient: jest.fn(),
-  InMemoryCache: jest.fn(),
-  ApolloError: jest.fn()
-}));
-
-jest.mock('~/app/map/api/actions');
-
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(() => ({
-    push: jest.fn()
-  })),
-  useSearchParams: jest.fn().mockReturnValue({
-    toString: () => '?q=United+States+of+America',
-    get: jest.fn().mockImplementation((key) => (key === 'q' ? 'United States of America' : null))
-  })
-}));
-
-jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
-  Map: jest.fn(),
+jest.mock('mapbox-gl', () => ({
+  Map: jest.fn(() => ({ on: jest.fn(), remove: jest.fn() })),
   LngLatBounds: jest.fn()
-}));
-
-jest.mock('~/hooks/use-search-query-params', () => ({
-  __esModule: true,
-  default: jest.fn().mockReturnValue({
-    searchFilter: '',
-    handleClearSearchQueryParam: jest.fn()
-  })
-}));
-
-jest.mock('~/components/map/use-init-map', () => ({
-  __esModule: true,
-  default: jest.fn().mockReturnValue({
-    mapBox: null,
-    mapContainer: {}
-  })
-}));
-
-jest.mock('~/hooks/use-map-features', () => ({
-  __esModule: true,
-  default: jest.fn().mockReturnValue({
-    featureList: [
-      {
-        Country: 'United States of America',
-        'ISO Code': 'US',
-        Latitude: 37.0902,
-        Longitude: -95.5022
-      }
-    ],
-    filterFeatures: jest.fn()
-  })
 }));
 
 jest.mock('~/components/map/use-init-map', () => ({
@@ -148,30 +97,23 @@ jest.mock('~/design-system/navbar', () => 'Navbar');
 jest.mock('~/components/map/map-box', () => 'MapBox');
 jest.mock('~/components/sidebar-menu', () => 'SidebarMenu');
 jest.mock('~/design-system/drawer', () => 'Drawer');
-jest.mock('~/components/data-response-error', () => 'GraphQlError');
 
-describe('MapPage Component', () => {
+describe('MapPageContainer', () => {
   beforeEach(() => {
     jest.resetModules();
     jest.clearAllMocks();
   });
 
-  it('renders MapPageContainer on success', async () => {
-    (getMapData as jest.Mock).mockResolvedValueOnce({
-      data: mockData,
-      errors: null,
-      error: null,
-      loading: false
-    });
-
-    const jsx = await MapPage();
-
+  it('renders correctly and matches snapshot', async () => {
     const mockState = {
       ...mockDataDetail
     };
+
     await act(async () => {
-      mockUseState({ isExpanded: false });
+      mockUseState({ isExpanded: true });
+
       mockUseState(mockState);
+      mockUseEffect();
     });
 
     const element = renderPropComponent({
@@ -179,7 +121,6 @@ describe('MapPage Component', () => {
         <ConditionalWrapper conditional={mockState}>
           {({ value }) => {
             const country = value.country;
-
             return (
               <DetailsCard
                 {...{
@@ -203,30 +144,22 @@ describe('MapPage Component', () => {
 
     expect(element).toBeInTheDocument();
 
-    render(jsx);
-    assertSnapshot(jsx);
+    const { container } = render(
+      <DrawerProvider>
+        <MapPageContainer countries={mockData} loading={false} />
+      </DrawerProvider>
+    );
+
+    assertSnapshot(container);
   });
 
-  it('renders GraphQlError on error', async () => {
-    const mockError = new ApolloError({
-      errorMessage: 'This is a mock error',
-      graphQLErrors: [{ message: 'GraphQL error' }],
-      networkError: new Error('Network error')
-    });
+  it('renders loading state and matches snapshot', async () => {
+    const jsx = MapPageContainer({ countries: null, loading: true });
 
-    (getMapData as jest.Mock).mockResolvedValueOnce({
-      data: null,
-      errors: [mockError],
-      error: mockError,
-      loading: false
-    });
-
-    const jsx = await MapPage();
     await act(async () => {
       render(jsx);
 
-      const { container } = render(<GraphQlError errors={[mockError]} error={mockError} />);
-
+      const { container } = render(<PageLoader />);
       expect(container).toBeInTheDocument();
     });
 

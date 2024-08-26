@@ -124,17 +124,17 @@ export default function MapPageContainer<T>({ countries, loading }: ContainerPro
         {() => {
           return (
             <ConditionalWrapper conditional={countryDetails}>
-              {({ value: { country } }) => {
+              {({ value }) => {
                 return (
                   <DetailsCard
-                    name={country.name}
-                    states={country.states}
-                    flag={`${country.emoji}`}
-                    capital={country.capital}
-                    currency={country.currency}
-                    languages={country.languages}
-                    continent={country.continent.name}
-                    subdivisions={country.subdivisions}
+                    name={value.country.name}
+                    states={value.country.states}
+                    flag={`${value.country.emoji}`}
+                    capital={value.country.capital}
+                    currency={value.country.currency}
+                    languages={value.country.languages}
+                    continent={value.country.continent.name}
+                    subdivisions={value.country.subdivisions}
                   />
                 );
               }}

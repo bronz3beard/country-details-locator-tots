@@ -10,10 +10,14 @@ export default function GraphQlError({
   // NOTE::  probably check for common possible known errors and show user friendly response to try fix the issue, also log these errors
   //  for now generic response below is okay
   if (errors) {
-    console.error('🚀 ~ errors:', errors);
+    if (process.env.NODE_ENV !== 'test') {
+      console.error('🚀 ~ errors:', errors);
+    }
   }
   if (error) {
-    console.error('🚀 ~ error:', error);
+    if (process.env.NODE_ENV !== 'test') {
+      console.error('🚀 ~ error:', error);
+    }
   }
   return (
     <section className="bg-transparent">

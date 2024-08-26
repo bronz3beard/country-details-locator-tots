@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MapPageContainer renders correctly and matches snapshot 1`] = `
+<div>
+  <navbar />
+  <drawer
+    anchor="1"
+    drawer="0"
+    leftcloselimit="md:-translate-x-64 -translate-x-80"
+    width="w-80"
+  />
+  <div
+    class="flex h-[calc(100vh-54px)] w-screen overflow-hidden bg-gray-100/50 bg-white bg-clip-border text-gray-700"
+  >
+    <div
+      class="h-full w-full"
+    >
+      <mapbox
+        mapcontainer="[object Object]"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MapPageContainer renders loading state and matches snapshot 1`] = `<PageLoader />`;
