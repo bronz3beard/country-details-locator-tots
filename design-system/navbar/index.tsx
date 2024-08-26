@@ -1,7 +1,9 @@
+import { ComponentProps } from 'react';
 import SearchFilter from '~/components/search-filter';
-import { MapBox } from '~/lib/map-box/types';
 
-export default function Navbar({ mapBox }: { mapBox: MapBox | null }) {
+type NavbarProps = ComponentProps<typeof SearchFilter>;
+
+export default function Navbar(props: NavbarProps) {
   return (
     <nav className="relative top-0 flex w-full items-center justify-between bg-gray-900 p-2">
       <div className="flex w-full items-center">
@@ -11,7 +13,7 @@ export default function Navbar({ mapBox }: { mapBox: MapBox | null }) {
           </div>
         </div>
         <div className="w-full justify-center md:flex md:w-1/3">
-          <SearchFilter mapBox={mapBox} />
+          <SearchFilter {...props} />
         </div>
         <div className="flex justify-end md:w-1/3"></div>
       </div>

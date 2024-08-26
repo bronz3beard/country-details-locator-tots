@@ -2,7 +2,9 @@
 
 exports[`MapPageContainer renders correctly and matches snapshot 1`] = `
 <div>
-  <navbar />
+  <navbar
+    featurelist="[object Object]"
+  />
   <drawer
     anchor="1"
     drawer="0"

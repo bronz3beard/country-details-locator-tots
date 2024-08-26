@@ -16,6 +16,7 @@ import { CountryDetails, CountryDetailsQueryReturnData } from '~/graphql/types';
 import useDialog from '~/hooks/use-dialog';
 import useFeatureList from '~/hooks/use-map-features';
 import useSearchQueryParam from '~/hooks/use-search-query-params';
+import { normalizeString } from '~/utils/string-utils';
 import DetailsCard from './details-card';
 
 type ContainerProps<T> = {
@@ -27,7 +28,7 @@ export default function MapPageContainer<T>({ countries, loading }: ContainerPro
   const [countryDetails, setCountryDetails] = useState<CountryDetails | null>(null);
 
   const { mapBox, mapContainer } = useInitialMap(mapConfig);
-  const { filterFeatures } = useFeatureList(mapBox);
+  const { featureList, filterFeatures } = useFeatureList(mapBox);
   const { openDialog, handleOpenDialog, handleDialogClose } = useDialog();
   const { searchFilter, handleClearSearchQueryParam } = useSearchQueryParam();
 
@@ -67,20 +68,34 @@ export default function MapPageContainer<T>({ countries, loading }: ContainerPro
   };
 
   useEffect(
-    function closeDialogWhenSearchFilterIsEmpty() {
+    function updateMapFeaturesAndDialogBasedOnSearchInput() {
       if (!searchFilter) {
         handleDialogClose();
         handleClearSearchQueryParam();
       }
+
+      if (searchFilter) {
+        const countryData = countries?.find(
+          (item) =>
+            item.country.states.some(
+              (item) => normalizeString(item.name) === normalizeString(searchFilter)
+            ) ||
+            item.country.subdivisions.some(
+              (item) => normalizeString(item.name) === normalizeString(searchFilter)
+            )
+        );
+
+        filterFeatures(countryData ? countryData.country.code : searchFilter);
+      }
     },
-    [searchFilter, handleDialogClose, handleClearSearchQueryParam]
+    [countries, searchFilter, filterFeatures, handleDialogClose, handleClearSearchQueryParam]
   );
 
   return loading ? (
     <PageLoader />
   ) : (
     <>
-      <Navbar mapBox={mapBox} />
+      <Navbar featureList={featureList} />
       <Drawer
         width="w-80"
         anchor={DrawerAnchor.left}

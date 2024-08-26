@@ -6,7 +6,7 @@ import { countries } from '~/lib/map-box/locations/countries';
 import { BuildFeature, MapBox } from '~/lib/map-box/types';
 import { normalizeString } from '~/utils/string-utils';
 
-interface Feature extends BuildFeature {}
+export interface Feature extends BuildFeature {}
 
 const bounds = latLngBounds();
 

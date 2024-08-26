@@ -1,19 +1,50 @@
 'use client';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Button from '~/design-system/button';
 import OutlineIcon from '~/design-system/icons/outline';
 import useDialog from '~/hooks/use-dialog';
-import useFeatureList from '~/hooks/use-map-features';
+import { Feature } from '~/hooks/use-map-features';
 import useSearchQueryParam from '~/hooks/use-search-query-params';
-import { MapBox } from '~/lib/map-box/types';
 import DebouncedInput from './debounce-input';
 import { DialogPortal } from './dialog';
 
-export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
+export default function SearchFilter({ featureList }: { featureList: Array<Feature> }) {
+  const [isShowModalDelayed, setIsShowModalDelayed] = useState(false);
+  const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const { handleDialogClose } = useDialog();
-  const { featureList, filterFeatures } = useFeatureList(mapBox);
   const { searchFilter, handleSearchQueryParam, handleClearSearchQueryParam } =
     useSearchQueryParam();
+
+  // showModal value without delay
+  const showModalWithoutDelay = useMemo(
+    () => featureList.length === 0 && !!searchFilter,
+    [featureList, searchFilter]
+  );
+
+  // Use useEffect to add a 2-second delay after search query for "slower typing users"
+  useEffect(
+    function addDelayBeforeShowingDialog() {
+      if (showModalWithoutDelay) {
+        if (timeoutIdRef.current) {
+          clearTimeout(timeoutIdRef.current);
+        }
+
+        timeoutIdRef.current = setTimeout(() => {
+          setIsShowModalDelayed(true);
+        }, 2000); // 2 seconds
+
+        return () => {
+          if (timeoutIdRef.current) {
+            clearTimeout(timeoutIdRef.current);
+          }
+        };
+      } else {
+        setIsShowModalDelayed(false);
+      }
+    },
+    [showModalWithoutDelay]
+  );
 
   const showModal = useMemo(
     () => featureList.length === 0 && !!searchFilter,
@@ -23,14 +54,18 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
   const handleOnChange = useCallback(
     async (value: string) => {
       handleSearchQueryParam(value);
-      filterFeatures(value);
     },
-    [filterFeatures, handleSearchQueryParam]
+    [handleSearchQueryParam]
   );
 
   const closeDialog = () => {
     handleDialogClose();
     handleClearSearchQueryParam();
+    // if the search is clear stop timeout
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+      timeoutIdRef.current = null;
+    }
   };
 
   return (
@@ -62,7 +97,7 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
 
       <DialogPortal
         {...{
-          showModal,
+          showModal: isShowModalDelayed,
           canCLose: true,
           isRelativeToParent: true,
           onClose: closeDialog,
@@ -74,7 +109,7 @@ export default function SearchFilter({ mapBox }: { mapBox: MapBox | null }) {
           return (
             <div className="block max-w-sm px-6 pb-4">
               <h5 className="text-xl font-bold tracking-tight text-gray-900">
-                That country has not been added.
+                &quot;{searchFilter}&quot; not Found.
               </h5>
               <p className="pt-4 font-normal text-gray-700 dark:text-gray-400">
                 Please try searching for any of the countries you see on the left.
