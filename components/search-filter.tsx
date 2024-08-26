@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Button from '~/design-system/button';
 import OutlineIcon from '~/design-system/icons/outline';
+import ToolTip from '~/design-system/tool-tip';
+import { ToolTipDirection } from '~/design-system/tool-tip/types';
 import useDialog from '~/hooks/use-dialog';
 import { Feature } from '~/hooks/use-map-features';
 import useSearchQueryParam from '~/hooks/use-search-query-params';
@@ -10,7 +12,9 @@ import { DialogPortal } from './dialog';
 
 export default function SearchFilter({ featureList }: { featureList: Array<Feature> }) {
   const [isShowModalDelayed, setIsShowModalDelayed] = useState(false);
+
   const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const searchInputRef = useRef<HTMLDivElement>(null);
 
   const { handleDialogClose } = useDialog();
   const { searchFilter, handleSearchQueryParam, handleClearSearchQueryParam } =
@@ -32,7 +36,7 @@ export default function SearchFilter({ featureList }: { featureList: Array<Featu
 
         timeoutIdRef.current = setTimeout(() => {
           setIsShowModalDelayed(true);
-        }, 2000); // 2 seconds
+        }, 2500); // 2.5 seconds
 
         return () => {
           if (timeoutIdRef.current) {
@@ -70,29 +74,35 @@ export default function SearchFilter({ featureList }: { featureList: Array<Featu
 
   return (
     <>
-      <div className="w-max-[550px] relative w-full lg:w-80 xl:w-full">
-        <DebouncedInput
-          required
-          role="text"
-          name="search"
-          autoComplete="off"
-          id="country-filter"
-          onChange={handleOnChange}
-          placeholder="Search Countries"
-          ariaLabel="Country Search Filter"
-          value={searchFilter || ''}
-          className="w-full rounded-lg border border-neutral-100 bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-100 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-100"
-        />
-
-        <Button
-          size="sm"
-          variant="subtle"
-          disabled={!searchFilter}
-          onClick={() => handleClearSearchQueryParam()}
-          className="absolute right-0 top-0 mr-3 flex h-full items-center"
+      <div ref={searchInputRef} className="w-max-[550px] relative w-full lg:w-80 xl:w-full">
+        <ToolTip
+          parentRef={searchInputRef}
+          text="Search by Country, State or Subdivision"
+          direction={ToolTipDirection.RIGHT}
         >
-          <OutlineIcon name={!searchFilter ? 'search' : 'close'} className="h-4" />
-        </Button>
+          <DebouncedInput
+            required
+            role="text"
+            name="search"
+            autoComplete="off"
+            id="country-filter"
+            onChange={handleOnChange}
+            placeholder="Search Countries"
+            ariaLabel="Country Search Filter"
+            value={searchFilter || ''}
+            className="w-full rounded-lg border border-neutral-100 bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-100 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-100"
+          />
+
+          <Button
+            size="sm"
+            variant="subtle"
+            disabled={!searchFilter}
+            onClick={() => handleClearSearchQueryParam()}
+            className="absolute right-0 top-0 mr-3 flex h-full items-center"
+          >
+            <OutlineIcon name={!searchFilter ? 'search' : 'close'} className="h-4" />
+          </Button>
+        </ToolTip>
       </div>
 
       <DialogPortal

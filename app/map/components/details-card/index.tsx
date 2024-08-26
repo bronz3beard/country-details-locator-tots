@@ -10,6 +10,7 @@ type CardDetailsProps = {
   states: Array<{ name: string }>;
   languages: Array<{ name: string }>;
   subdivisions: Array<{ name: string }>;
+  searchFilter?: string;
 };
 
 const DetailsCard = ({
@@ -20,7 +21,8 @@ const DetailsCard = ({
   currency,
   languages,
   continent,
-  subdivisions
+  subdivisions,
+  searchFilter
 }: CardDetailsProps) => {
   const countryStates = states?.length === 0 ? null : states;
   const countrySubdivisions = subdivisions?.length === 0 ? null : subdivisions;
@@ -49,6 +51,7 @@ const DetailsCard = ({
             <DetailSectionList
               minHeight="176px"
               bg="bg-gray-100"
+              searchFilter={searchFilter}
               title={countryStates ? 'States' : 'Subdivisions'}
               list={countryStates ?? countrySubdivisions}
             />

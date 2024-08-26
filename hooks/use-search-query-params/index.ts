@@ -5,7 +5,7 @@ import { createUrl } from '~/utils/url-utils';
 const useSearchQueryParam = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const searchFilter = searchParams?.get('q');
+  const searchFilter = searchParams?.get('q') || '';
 
   const handleSearchQueryParam = useCallback(
     (value: string) => {

@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from 'react';
+import { ReactNode, RefObject, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import useEventListener from '~/hooks/use-event-listener';
 import { ToolTipDirection } from './types';
@@ -7,7 +7,7 @@ type ToolTipProps = {
   text: string;
   children: ReactNode;
   direction?: ToolTipDirection;
-  parentRef: React.RefObject<HTMLElement>;
+  parentRef: RefObject<HTMLElement>;
 };
 
 const ToolTip = ({ direction = ToolTipDirection.TOP, text, children, parentRef }: ToolTipProps) => {

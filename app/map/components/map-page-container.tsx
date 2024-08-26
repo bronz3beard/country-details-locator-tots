@@ -142,6 +142,7 @@ export default function MapPageContainer<T>({ countries, loading }: ContainerPro
               {({ value }) => {
                 return (
                   <DetailsCard
+                    searchFilter={searchFilter}
                     name={value.country.name}
                     states={value.country.states}
                     flag={`${value.country.emoji}`}
