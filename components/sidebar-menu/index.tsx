@@ -1,6 +1,5 @@
 import { MouseEvent, ReactElement, Ref, forwardRef } from 'react';
 import MenuBody from './components/menu-body';
-import MenuFooter from './components/menu-footer';
 import MenuHeader from './components/menu-header';
 
 type SideBarProps<T> = {
@@ -44,7 +43,6 @@ const Sidebar = <T,>(
           handleMenuItemClick={handleMenuItemClick}
         />
       </div>
-      <MenuFooter showDrawer={showDrawer} />
     </div>
   );
 };

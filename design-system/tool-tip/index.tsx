@@ -103,7 +103,7 @@ const ToolTip = ({ direction = ToolTipDirection.TOP, text, children, parentRef }
   return (
     <>
       {children}
-      {createPortal(renderTooltip(), document.body)}
+      {createPortal(renderTooltip(), document?.body)}
     </>
   );
 };
